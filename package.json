@@ -1,0 +1,57 @@
+{
+  "name": "salad-example",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "http://github.com/komola/salad-example",
+  "main": "./server.coffee",
+  "author": "Sebastian Hoitz <hoitz@komola.de>",
+  "keywords": [
+    "node"
+  ],
+  "maintainers": [
+    {
+      "name": "Sebastian Hoitz",
+      "email": "hoitz@komola.de"
+    }
+  ],
+  "contributors": [],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://mths.be/mit"
+    }
+  ],
+  "bugs": {
+    "url": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": ">= 0.4.0",
+    "npm": "1"
+  },
+  "dependencies": {
+    "underscore": ">= 0.0.1",
+    "underscore.string": ">= 0.0.1",
+    "coffee-script": ">= 1.3",
+    "socket.io": ">= 0.9.6",
+    "multiparter": ">= 0.0.1",
+    "mime": ">= 0.0.1",
+    "salad": ">= 0.0.1"
+  },
+  "devDependencies": {
+    "stylus": ">= 0.17.0",
+    "less": ">= 1.2.2",
+    "uglify-js": ">= 1.1.1",
+    "async": ">= 0.0.1",
+    "mocha": ">= 0.12.1",
+    "chai": ">= 0.3.3",
+    "sinon": ">= 1.3.1",
+  },
+  "scripts": {
+    "test": "mocha $(find test -name \"*Test.coffee\")",
+    "prepublish": "npm prune; rm -rf node_modules/*/{test,example,bench}*"
+  }
+}
