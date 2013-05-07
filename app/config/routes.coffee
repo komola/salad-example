@@ -1,2 +1,2 @@
-Salad.Router.register ->
-  @resource "/photo", controller: "photos"
+Salad.Router.register (router) ->
+  router.match("/photo", "GET").to("photos.index")
