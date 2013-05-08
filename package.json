@@ -29,24 +29,23 @@
     "url": ""
   },
   "engines": {
-    "node": ">= 0.4.0",
+    "node": "~0.4.0",
     "npm": "1"
   },
   "dependencies": {
     "coffee-script": "~1.6.2",
-    "salad": ">= 0.0.1",
+    "salad": "~0.0.1",
     "source-map-support": "~0.1.5",
     "coffee-script-mapped": "~0.1.2",
-    "sequelize": "~1.7.0-alpha1"
+    "sequelize-sqlite": "~1.7.0-alpha1"
   },
   "devDependencies": {
-    "stylus": ">= 0.17.0",
-    "less": ">= 1.2.2",
-    "uglify-js": ">= 1.1.1",
-    "async": ">= 0.0.1",
-    "mocha": ">= 0.12.1",
-    "chai": ">= 0.3.3",
-    "sinon": ">= 1.3.1",
+    "stylus": "~0.32.0",
+    "less": "~1.3.2",
+    "async": "~0.2.8",
+    "mocha": "~1.9.0",
+    "chai": "~1.6.0",
+    "sinon": "~1.7.0",
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.4.0",
     "grunt-contrib-coffee": "~0.7.0",
@@ -55,10 +54,12 @@
     "grunt-cli": "~0.1.8",
     "supervisor": "~0.5.2",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.0"
+    "grunt-contrib-uglify": "~0.2.0",
+    "should": "~1.2.2",
+    "superagent": "~0.14.2"
   },
   "scripts": {
-    "test": "mocha $(find test -name \"*Test.coffee\")",
+    "test": "NODE_ENV=testing ./node_modules/.bin/mocha --require should --require coffee-script-mapped --reporter spec --timeout 2000 --growl ./test/server.coffee $(find test -name \"*Test.coffee\")",
     "prepublish": "npm prune; rm -rf node_modules/*/{test,example,bench}*"
   }
 }

@@ -9,6 +9,7 @@ env = process.env.NODE_ENV || "production"
 
 port = switch env
   when "production" then 80
+  when "testing" then 3001
   else 3000
 
 # app = Salad.Bootstrap
@@ -25,8 +26,7 @@ sequelize = new Sequelize "salad-example", "root", "",
 Location = sequelize.define "Location",
   title: Sequelize.STRING
   description: Sequelize.TEXT
-
-sequelize.sync()
+  messages: Sequelize.INTEGER
 
 # Controllers
 class PhotosController extends Salad.RestfulController
@@ -36,16 +36,22 @@ class PhotosController extends Salad.RestfulController
     @response.send "Hallo!"
 
 class LocationsController extends Salad.RestfulController
-  @resourceName: "locations"
+  @resourceName: "location"
+
+  constructor: ->
+    @resource = Location
+
+    super
 
   _index: (callback) ->
-    items = [
-      {id: 2, name: "Bob"}
-      {id: 3, name: "Alice"}
-      {id: 4, name: "Tim"}
-    ]
+    @resource.findAll().success (resources) =>
+      callback.apply @, [null, resources]
 
-    callback.apply @, [null, items]
+  findResource: (callback) ->
+    query = @resource.find(@params.id)
+
+    query.success (resource) =>
+      callback.apply @, [resource]
 
   index: ->
     @_index (error, resources) =>
@@ -53,9 +59,31 @@ class LocationsController extends Salad.RestfulController
         html: -> @response.send "Ich habe #{resources.length} Einträge"
         json: -> @response.send resources
 
+  create: ->
+    @_create (error, resource) =>
+      @respond
+        html: -> @response.send "Created!"
+        json: -> @response.send resource
+
+  _create: (callback) ->
+    data = @params[@resourceName]
+
+    @resource.create(data)
+      .success (resource) =>
+        callback.apply @, [null, resource]
+
+      .error (error) =>
+        callback.apply @, [error, null]
+
   show: ->
-    console.log @params
-    @response.send "Locations GET #{@params.id}"
+    @findResource (err, resource) =>
+      unless resource
+        return @respond
+          html: -> @response.send "Not found"
+          json: -> @response.send status: 404
+      @respond
+        html: -> @response.send "Name: #{resource.get("name")}"
+        json: -> @response.send resource
 
 class ErrorController extends Salad.Controller
   404: ->
@@ -65,6 +93,7 @@ class ErrorController extends Salad.Controller
 
 # Routes
 router.match("/photos", "GET").to("photos.index")
+router.match("/locations/asdasd", "GET").to("locations.create")
 router.resource("locations")
 
 # App initialisation
@@ -108,4 +137,13 @@ app.all "*", (request, response) ->
   # Call the controller action
   controller[matching.action]()
 
-app.listen port
+Salad.initialize = (callback) =>
+  syncSequelize = (cb) ->
+    sequelize.sync(force: true).done cb
+
+  listen = (cb) ->
+    app.listen port
+    cb()
+
+  async.series [syncSequelize, listen], =>
+    callback.apply @ if callback
