@@ -22,6 +22,7 @@ port = switch env
 sequelize = new Sequelize "salad-example", "root", "",
   dialect: "sqlite"
   storage: "#{Salad.root}/db.sqlite"
+  logging: env is "development"
 
 Location = sequelize.define "Location",
   title: Sequelize.STRING
