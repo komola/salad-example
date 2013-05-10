@@ -12,9 +12,30 @@ describe "Controller", ->
     describe "#create", ->
       it "should return the newly created resource", (done) ->
         agent.post("http://localhost:3001/locations.json")
-          .send(location: {name: "Foo", description: "Bar"})
+          .send(location: {title: "Foo", description: "Bar"})
           .end (res) ->
             res.ok.should.equal(true)
-            res.body.id.should.equal 1
+            res.body.should.have.property "id"
+
+            done()
+
+      it "should accept form data", (done) ->
+        agent.post("http://localhost:3001/locations.json")
+          .send("location[title]=Foo")
+          .send("location[description]=Bar")
+          .end (res) ->
+            res.ok.should.equal(true)
+            res.body.should.have.property "title"
+            res.body.title.should.equal "Foo"
+
+            done()
+
+      it "should accept JSON data", (done) ->
+        agent.post("http://localhost:3001/locations.json")
+          .send(location: {title: "Foo", description: "Bar"})
+          .end (res) ->
+            res.ok.should.equal(true)
+            res.body.should.have.property "title"
+            res.body.title.should.equal "Foo"
 
             done()

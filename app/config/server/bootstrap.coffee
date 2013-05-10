@@ -37,7 +37,7 @@ class PhotosController extends Salad.RestfulController
     @response.send "Hallo!"
 
 class LocationsController extends Salad.RestfulController
-  @resourceName: "location"
+  resourceName: "location"
 
   constructor: ->
     @resource = Location
@@ -100,6 +100,8 @@ router.resource("locations")
 # App initialisation
 app = express()
 
+app.use express.bodyParser()
+app.use express.methodOverride()
 app.use express.static("#{Salad.root}/public")
 
 app.all "*", (request, response) ->
