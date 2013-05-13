@@ -11,7 +11,10 @@ global.async = require "async"
 global.agent = require "superagent"
 
 before (done) ->
-  Salad.initialize done
+  Salad.Bootstrap.run
+    port: 3001
+    env: "testing"
+    cb: done
 
 after (done) ->
-  Salad.destroy done
+  Salad.Bootstrap.destroy done

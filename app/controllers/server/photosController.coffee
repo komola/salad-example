@@ -1,2 +1,5 @@
 class App.PhotosController extends Salad.RestfulController
-  @resourceName: "photo"
+  resourceName: "photo"
+
+  index: ->
+    @response.send "Hallo!"

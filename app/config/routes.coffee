@@ -1,2 +1,4 @@
 Salad.Router.register (router) ->
-  router.match("/photo", "GET").to("photos.index")
+  router.match("/photos", "GET").to("photos.index")
+  router.match("/locations/asdasd", "GET").to("locations.create")
+  router.resource("locations")
