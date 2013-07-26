@@ -12,8 +12,9 @@ module.exports = (grunt) ->
 
     bgShell:
       runNode:
-        cmd: "./node_modules/.bin/supervisor --extensions 'node|js|coffee' app server.js"
+        cmd: "./dev.sh"
         bg: true
+
     stylus:
       compile:
         options:
@@ -42,8 +43,11 @@ module.exports = (grunt) ->
         files: ['app/stylesheets/*.styl']
         tasks: ['stylus']
 
+    clean:
+      controllers: ["tmp/controllers"]
+
     coffee:
-      compileEachMap:
+      client:
         options:
           sourceMap: true
         files: [
@@ -59,9 +63,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-concat"
   grunt.loadNpmTasks "grunt-contrib-stylus"
   grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-bg-shell"
+  grunt.loadNpmTasks "grunt-apidoc"
 
-  grunt.registerTask "compile", ["coffee", "stylus"]
+  grunt.registerTask "compile", ["coffee:client", "stylus"]
   grunt.registerTask "server", ["bgShell:runNode", "watch"]
 
   grunt.registerTask "build", ["concat", "uglify"]

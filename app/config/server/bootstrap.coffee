@@ -1,7 +1,7 @@
 env = process.env.NODE_ENV || "production"
 
 port = switch env
-  when "production" then 80
+  when "production" then 3000
   when "testing" then 3001
   else 3000
 
