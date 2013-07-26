@@ -24,3 +24,5 @@ pkg
 npm-debug.log
 
 /public/assets
+/public/stylesheets/*
+/public/javascripts/*
