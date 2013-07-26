@@ -5,6 +5,8 @@
 To get started, just clone this repo
 
     git clone https://github.com/komola/salad-example.git
+    cd salad-example
+    npm install
 
 enter the directory, and execute `grunt server`. This will start a development server
 on `http://localhost:3000`.
