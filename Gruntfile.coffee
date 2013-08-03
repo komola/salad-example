@@ -1,3 +1,5 @@
+path = require "path"
+
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON "package.json"
@@ -12,7 +14,7 @@ module.exports = (grunt) ->
 
     bgShell:
       runNode:
-        cmd: "./dev.sh"
+        cmd: [".", "node_modules", ".bin", "supervisor --extensions \"node|js|coffee\" app server.js"].join(path.sep)
         bg: true
 
     stylus:
